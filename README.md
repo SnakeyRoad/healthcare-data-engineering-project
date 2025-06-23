@@ -2,10 +2,16 @@
 
 A comprehensive ETL pipeline for healthcare data processing using PostgreSQL, Python, and Docker.
 
-## 🎉 Project Status: COMPLETED ✅
+## 🎉 Project Status: IN PROGRESS 🚧
 
 **Last Updated:** June 23, 2025  
 **Repository:** https://github.com/SnakeyRoad/healthcare-data-engineering-project
+
+**Current Status:**
+- ✅ **ETL Pipeline Complete** - Data cleaning, loading, and database setup finished
+- 🚧 **Query Implementation** - In progress (Kian's responsibility)
+- 🚧 **Data Quality Analysis** - In progress (Kiana's responsibility)
+- 🚧 **Final Integration** - Pending team completion
 
 ## Team Members
 - **Christian** (Team Lead) - Infrastructure, Security, Integration
@@ -215,14 +221,14 @@ Five cross-dataset queries required by project:
 - [ ] Security framework and compliance documentation
 - [ ] System integration and deployment
 
-### Kian (Database Specialist)
+### Kian (Database Specialist) 🚧 IN PROGRESS
 - [ ] PostgreSQL schema customization and optimization
 - [ ] Query implementation and performance tuning
 - [ ] JSON to relational transformation logic
 - [ ] Database integration testing
 - [ ] Performance benchmarking
 
-### Kiana (Data Quality Analyst)
+### Kiana (Data Quality Analyst) 🚧 IN PROGRESS
 - [ ] Data validation rules implementation
 - [ ] Quality assessment metrics and reporting
 - [ ] Test case development for data integrity
@@ -306,11 +312,13 @@ UNION ALL SELECT 'observations', COUNT(*) FROM observations;
 - [x] Security implementation and compliance documentation
 - [x] GitHub repository with complete project
 
-### Assessment Documentation
+### Assessment Documentation 🚧 IN PROGRESS
 - [x] System architecture and design decisions
 - [x] Data quality assessment and remediation strategies
-- [ ] Performance analysis and scalability considerations
-- [ ] Security policy and GDPR compliance procedures
+- [ ] Performance analysis and scalability considerations (Kian)
+- [ ] Security policy and GDPR compliance procedures (Christian)
+- [ ] Query implementation and optimization (Kian)
+- [ ] Advanced data quality analysis (Kiana)
 
 ## 📅 Project Timeline
 
@@ -321,11 +329,12 @@ UNION ALL SELECT 'observations', COUNT(*) FROM observations;
 - [x] Data loading and validation
 - [x] GitHub repository setup
 
-### Week 2: Implementation (In Progress)
-- [ ] Query implementation and optimization
-- [ ] Performance testing and benchmarking
-- [ ] Security documentation and compliance
-- [ ] Final integration and presentation preparation
+### Week 2: Implementation 🚧 IN PROGRESS
+- [ ] Query implementation and optimization (Kian)
+- [ ] Performance testing and benchmarking (Kian)
+- [ ] Security documentation and compliance (Christian)
+- [ ] Data quality analysis and reporting (Kiana)
+- [ ] Final integration and presentation preparation (Team)
 
 ## 🎯 Success Criteria
 
@@ -334,7 +343,9 @@ UNION ALL SELECT 'observations', COUNT(*) FROM observations;
 - ✅ Data loading pipeline with 1,762 records
 - ✅ Comprehensive security framework implemented
 - ✅ Professional documentation and GitHub repository
-- ⏳ Five queries executing within performance targets
+- ⏳ Five queries executing within performance targets (Kian)
+- ⏳ Advanced data quality analysis completed (Kiana)
+- ⏳ Final team integration and presentation ready
 
 ## 📞 Contact and Support
 
@@ -351,4 +362,4 @@ This project is for educational purposes as part of a university data science pr
 
 **Repository:** https://github.com/SnakeyRoad/healthcare-data-engineering-project  
 **Last Updated:** June 23, 2025  
-**Status:** ETL Pipeline Complete ✅
+**Status:** ETL Pipeline Complete ✅ | Team Tasks In Progress 🚧
