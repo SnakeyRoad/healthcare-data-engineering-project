@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: healthcare_postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-healthcare_db}
+      POSTGRES_USER: ${POSTGRES_USER:-healthcare_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secure_password_2024}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/pgdata
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./sql/test_data.sql:/docker-entrypoint-initdb.d/02-test_data.sql
+    networks:
+      - healthcare_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-healthcare_admin} -d ${POSTGRES_DB:-healthcare_db}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: healthcare_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@healthcare.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin_password_2024}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - healthcare_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Optional: Python development container
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: healthcare_app
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-healthcare_admin}:${POSTGRES_PASSWORD:-secure_password_2024}@postgres:5432/${POSTGRES_DB:-healthcare_db}
+    volumes:
+      - .:/app
+      - ./data:/app/data
+    networks:
+      - healthcare_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    working_dir: /app
+    stdin_open: true
+    tty: true
+    profiles:
+      - dev  # Use: docker-compose --profile dev up
+
+volumes:
+  postgres_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  healthcare_network:
+    driver: bridge

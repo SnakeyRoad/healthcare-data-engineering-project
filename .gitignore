@@ -1,0 +1,150 @@
+# Healthcare Data Engineering Project - Git Ignore
+
+# Environment variables and sensitive configuration
+.env
+.env.local
+.env.production
+.env.staging
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# PyCharm
+.idea/
+
+# Data files (sensitive healthcare data)
+data/raw/*.csv
+data/raw/*.json
+data/raw/*.sqlite
+data/raw/*.db
+
+# Processed data (may contain sensitive information)
+data/processed/
+data/quality_reports/
+
+# Logs
+logs/
+*.log
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Output and temporary files
+output/
+temp/
+tmp/
+*.tmp
+
+# Docker volumes
+postgres_data/
+pgadmin_data/
+
+# Test coverage
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Documentation builds
+docs/_build/
+
+# Package files
+*.tar.gz
+*.zip
+*.rar
+
+# Windows specific
+*.exe
+*.msi
+*.msm
+*.msp
+
+# macOS specific
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux specific
+*~
+
+# Security and compliance
+audit_logs/
+security_reports/
+compliance_reports/
+
+# Performance monitoring
+performance_reports/
+*.perf
+
+# Keep structure but ignore content
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/quality_reports/.gitkeep
+!logs/.gitkeep
+!output/.gitkeep
+
+# Sample/test data (small, non-sensitive)
+!data/raw/sample_*.csv
+!data/raw/test_*.json
+
+# Configuration templates (without sensitive data)
+!.env.example
+!config/settings_template.py
+
+# Documentation
+!docs/
+!README.md
+!*.md
