@@ -52,13 +52,13 @@ Thumbs.db
 # PyCharm
 .idea/
 
-# Raw data files (sensitive healthcare data - exclude these)
-data/raw/*.csv
-data/raw/*.json
-data/raw/*.sqlite
-data/raw/*.db
-data/raw/*.xlsx
-data/raw/*.xls
+# Raw data files (synthetic healthcare data - include these)
+# data/raw/*.csv - REMOVED - now including raw data
+# data/raw/*.json - REMOVED - now including raw data
+# data/raw/*.sqlite - REMOVED - now including raw data
+# data/raw/*.db - REMOVED - now including raw data
+# data/raw/*.xlsx - REMOVED - now including raw data
+# data/raw/*.xls - REMOVED - now including raw data
 
 # Keep processed/cleaned data (include these)
 # data/processed/ - REMOVED - now including processed data
@@ -150,6 +150,14 @@ performance_reports/
 !docs/
 !README.md
 !*.md
+
+# Include ALL healthcare data files (synthetic data)
+!data/raw/*.csv
+!data/raw/*.json
+!data/raw/*.sqlite
+!data/raw/*.db
+!data/raw/*.xlsx
+!data/raw/*.xls
 
 # Include all processed data files
 !data/processed/*.csv
