@@ -52,37 +52,39 @@ Thumbs.db
 # PyCharm
 .idea/
 
-# Data files (sensitive healthcare data)
+# Raw data files (sensitive healthcare data - exclude these)
 data/raw/*.csv
 data/raw/*.json
 data/raw/*.sqlite
 data/raw/*.db
+data/raw/*.xlsx
+data/raw/*.xls
 
-# Processed data (may contain sensitive information)
-data/processed/
-data/quality_reports/
+# Keep processed/cleaned data (include these)
+# data/processed/ - REMOVED - now including processed data
+# data/quality_reports/ - REMOVED - now including quality reports
 
-# Logs
-logs/
-*.log
+# Logs (keep structure but exclude large log files)
+logs/*.log
+logs/*.txt
+!logs/.gitkeep
 
-# Database files
-*.db
-*.sqlite
-*.sqlite3
+# Database files (keep SQLite files for reference)
+# *.db - REMOVED - now including database files
+# *.sqlite - REMOVED - now including SQLite files
+# *.sqlite3 - REMOVED - now including SQLite files
 
 # Backup files
 *.bak
 *.backup
 *~
 
-# Output and temporary files
-output/
-temp/
-tmp/
+# Output and temporary files (keep output directory)
+output/temp/
+output/tmp/
 *.tmp
 
-# Docker volumes
+# Docker volumes (exclude these as they're large and regeneratable)
 postgres_data/
 pgadmin_data/
 
@@ -120,12 +122,12 @@ docs/_build/
 # Linux specific
 *~
 
-# Security and compliance
+# Security and compliance (exclude sensitive reports)
 audit_logs/
 security_reports/
 compliance_reports/
 
-# Performance monitoring
+# Performance monitoring (exclude large performance files)
 performance_reports/
 *.perf
 
@@ -148,3 +150,25 @@ performance_reports/
 !docs/
 !README.md
 !*.md
+
+# Include all processed data files
+!data/processed/*.csv
+!data/processed/*.json
+!data/processed/*.sqlite
+!data/processed/*.db
+
+# Include quality reports
+!data/quality_reports/*.json
+!data/quality_reports/*.csv
+!data/quality_reports/*.html
+
+# Include database files
+!*.db
+!*.sqlite
+!*.sqlite3
+
+# Include output files
+!output/*.csv
+!output/*.json
+!output/*.html
+!output/*.pdf
