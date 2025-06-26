@@ -131,25 +131,25 @@ performance_reports/
 !data/raw/*.xlsx
 !data/raw/*.xls
 
-# Exclude all processed data files
+# Exclude processed data files (can be regenerated)
 data/processed/*.csv
 data/processed/*.json
 data/processed/*.sqlite
 data/processed/*.db
 
-# Include quality reports
-!data/quality_reports/*.json
-!data/quality_reports/*.csv
-!data/quality_reports/*.html
+# Exclude quality reports (can be regenerated)
+data/quality_reports/*.json
+data/quality_reports/*.csv
+data/quality_reports/*.html
 
 # Include database files
 !*.db
 !*.sqlite
 !*.sqlite3
 
-# Include output files
-!output/*.csv
-!output/*.json
-!output/*.html
-!output/*.pdf
-!output/*.txt
+# Exclude output files (can be regenerated)
+output/*.csv
+output/*.json
+output/*.html
+output/*.pdf
+output/*.txt
