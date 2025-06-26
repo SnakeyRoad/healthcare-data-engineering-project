@@ -97,8 +97,8 @@ healthcare_data_project/
 ## Environment and .env Handling
 
 - All sensitive configuration (database credentials, ports, etc.) is managed via a `.env` file.
-- Copy `.env.example` to `.env` and edit as needed.
-- The `.env` file is loaded automatically by the Python scripts and Docker Compose.
+- The `.env` file is included in repository since it does not contain sensitve information (that can't be extracted from the dockercompose file anyway)
+  and is loaded automatically by the Python scripts and Docker Compose.
 
 ---
 
@@ -118,7 +118,9 @@ pip install -r requirements.txt
 ```
 
 ### 3. Create/Edit the .env File
-Copy `.env.example` to `.env` and update credentials as needed.
+```
+`.env` file is included in the repository
+```
 
 ### 4. Start Docker Services
 ```bash
@@ -140,7 +142,7 @@ python3 scripts/query_runner.py
 
 ### 7. Access pgAdmin
 - Open [http://localhost:5050](http://localhost:5050)
-- Login with credentials from your `.env` file.
+- Login with credentials from your `.env` file. (pgAdmin might ask for masterpwd, set this to own preference)
 
 ---
 
