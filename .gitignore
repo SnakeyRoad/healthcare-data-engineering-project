@@ -108,12 +108,16 @@ compliance_reports/
 performance_reports/
 *.perf
 
-# Keep structure but ignore content
+# Keep directory structure but ignore generated content
+# Always preserve .gitkeep files to maintain directory structure
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !data/quality_reports/.gitkeep
 !logs/.gitkeep
 !output/.gitkeep
+!docs/.gitkeep
+!tests/.gitkeep
+!sql/test_data.sql/.gitkeep
 
 # Configuration templates (without sensitive data)
 !config/settings_template.py
@@ -131,13 +135,13 @@ performance_reports/
 !data/raw/*.xlsx
 !data/raw/*.xls
 
-# Exclude processed data files (can be regenerated)
+# Exclude processed data files (can be regenerated) but keep directory
 data/processed/*.csv
 data/processed/*.json
 data/processed/*.sqlite
 data/processed/*.db
 
-# Exclude quality reports (can be regenerated)
+# Exclude quality reports (can be regenerated) but keep directory
 data/quality_reports/*.json
 data/quality_reports/*.csv
 data/quality_reports/*.html
@@ -147,7 +151,7 @@ data/quality_reports/*.html
 !*.sqlite
 !*.sqlite3
 
-# Exclude output files (can be regenerated)
+# Exclude output files (can be regenerated) but keep directory
 output/*.csv
 output/*.json
 output/*.html
