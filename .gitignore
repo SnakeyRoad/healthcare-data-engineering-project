@@ -1,11 +1,5 @@
 # Healthcare Data Engineering Project - Git Ignore
 
-# Environment variables and sensitive configuration
-.env
-.env.local
-.env.production
-.env.staging
-
 # Python
 __pycache__/
 *.py[cod]
@@ -52,27 +46,10 @@ Thumbs.db
 # PyCharm
 .idea/
 
-# Raw data files (synthetic healthcare data - include these)
-# data/raw/*.csv - REMOVED - now including raw data
-# data/raw/*.json - REMOVED - now including raw data
-# data/raw/*.sqlite - REMOVED - now including raw data
-# data/raw/*.db - REMOVED - now including raw data
-# data/raw/*.xlsx - REMOVED - now including raw data
-# data/raw/*.xls - REMOVED - now including raw data
-
-# Keep processed/cleaned data (include these)
-# data/processed/ - REMOVED - now including processed data
-# data/quality_reports/ - REMOVED - now including quality reports
-
 # Logs (keep structure but exclude large log files)
 logs/*.log
 logs/*.txt
 !logs/.gitkeep
-
-# Database files (keep SQLite files for reference)
-# *.db - REMOVED - now including database files
-# *.sqlite - REMOVED - now including SQLite files
-# *.sqlite3 - REMOVED - now including SQLite files
 
 # Backup files
 *.bak
@@ -138,12 +115,7 @@ performance_reports/
 !logs/.gitkeep
 !output/.gitkeep
 
-# Sample/test data (small, non-sensitive)
-!data/raw/sample_*.csv
-!data/raw/test_*.json
-
 # Configuration templates (without sensitive data)
-!.env.example
 !config/settings_template.py
 
 # Documentation
@@ -159,11 +131,11 @@ performance_reports/
 !data/raw/*.xlsx
 !data/raw/*.xls
 
-# Include all processed data files
-!data/processed/*.csv
-!data/processed/*.json
-!data/processed/*.sqlite
-!data/processed/*.db
+# Exclude all processed data files
+data/processed/*.csv
+data/processed/*.json
+data/processed/*.sqlite
+data/processed/*.db
 
 # Include quality reports
 !data/quality_reports/*.json
@@ -180,3 +152,4 @@ performance_reports/
 !output/*.json
 !output/*.html
 !output/*.pdf
+!output/*.txt

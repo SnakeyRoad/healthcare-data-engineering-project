@@ -13,8 +13,11 @@ services:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data/pgdata
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./pg_hba.conf:/etc/postgresql/pg_hba.conf
       - ./sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
       - ./sql/test_data.sql:/docker-entrypoint-initdb.d/02-test_data.sql
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf -c hba_file=/etc/postgresql/pg_hba.conf
     networks:
       - healthcare_network
     restart: unless-stopped
@@ -62,7 +65,7 @@ services:
     stdin_open: true
     tty: true
     profiles:
-      - dev  # Use: docker-compose --profile dev up
+      - dev  # Use: docker compose --profile dev up
 
 volumes:
   postgres_data:

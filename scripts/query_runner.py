@@ -4,48 +4,74 @@ Healthcare Data Engineering Project - Query Runner
 Executes the five required cross-dataset queries
 """
 
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import logging
 from pathlib import Path
 from typing import Dict, List, Any
 from datetime import datetime
+import re
+import time
+from tabulate import tabulate
 
-from config.database import get_db_manager
+from config.database import db_manager
+
+def load_queries_from_file(filepath: str) -> dict:
+    """Load queries from a .sql file using comment markers."""
+    with open(filepath, 'r', encoding='utf-8') as f:
+        content = f.read()
+    # Split by markers like -- Query 1: ... and -- Performance Query:
+    pattern = re.compile(r'-- (Query \d+: .*?|Performance Query:.*?)\n', re.DOTALL)
+    splits = pattern.split(content)
+    queries = {}
+    i = 1
+    while i < len(splits):
+        marker = splits[i]
+        if marker is None or i+1 >= len(splits):
+            break
+        sql = splits[i+1]
+        if marker.startswith('Performance Query'):
+            queries['Performance Query'] = {'title': 'Performance Query', 'sql': sql.strip()}
+        else:
+            queries[marker] = {'title': marker, 'sql': sql.strip()}
+        i += 2
+    return queries
 
 class QueryRunner:
     """Executes the required healthcare data queries"""
     
     def __init__(self):
         self.logger = logging.getLogger(__name__)
-        self.db_manager = get_db_manager()
+        self.db_manager = db_manager
         self.output_dir = Path("output")
         self.output_dir.mkdir(exist_ok=True)
+        self.queries = load_queries_from_file("sql/queries.sql")
     
     def run_all_queries(self) -> bool:
-        """Execute all required queries"""
+        """Execute all required queries, pretty-print, and time them."""
         self.logger.info("Starting query execution...")
-        
-        queries = [
-            ("Patient Demographics", self.query_patient_demographics),
-            ("Provider Statistics", self.query_provider_statistics),
-            ("Diagnosis Analysis", self.query_diagnosis_analysis),
-            ("Lab Results", self.query_lab_results),
-            ("Care Continuity", self.query_care_continuity)
-        ]
-        
         results = {}
-        for query_name, query_func in queries:
+        for qnum in sorted(self.queries.keys()):
+            qinfo = self.queries[qnum]
+            query_name = f"{qnum}: {qinfo['title']}"
+            sql = qinfo['sql']
             self.logger.info(f"Executing: {query_name}")
+            start = time.time()
             try:
-                result = query_func()
-                results[query_name] = result
-                self.logger.info(f"Completed: {query_name}")
+                result = self.db_manager.execute_query(sql)
+                elapsed = time.time() - start
+                results[query_name] = {
+                    'description': qinfo['title'],
+                    'result': result,
+                    'time_seconds': round(elapsed, 3)
+                }
+                self.logger.info(f"Completed: {query_name} in {elapsed:.3f}s")
             except Exception as e:
                 self.logger.error(f"Error in {query_name}: {e}")
                 results[query_name] = {"error": str(e)}
-        
-        # Save results to file
         self._save_results(results)
-        
         return True
     
     def query_patient_demographics(self) -> Dict[str, Any]:
@@ -187,26 +213,64 @@ class QueryRunner:
             self.logger.error(f"Care continuity query failed: {e}")
             return {"error": str(e)}
     
-    def _save_results(self, results: Dict[str, Any]) -> None:
-        """Save query results to output file"""
+    def _save_results(self, results: dict) -> None:
+        """Save query results to output file and print to console for debugging"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_file = self.output_dir / f"query_results_{timestamp}.txt"
-        
+
         with open(output_file, 'w') as f:
             f.write("Healthcare Data Engineering Project - Query Results\n")
             f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             f.write("=" * 60 + "\n\n")
-            
             for query_name, result in results.items():
                 f.write(f"QUERY: {query_name}\n")
                 f.write("-" * 40 + "\n")
-                
+                print(f"\nQUERY: {query_name}")
+                print("-" * 40)
                 if "error" in result:
                     f.write(f"ERROR: {result['error']}\n")
+                    print(f"ERROR: {result['error']}")
                 else:
                     f.write(f"Description: {result.get('description', 'N/A')}\n")
-                    f.write(f"Results: {result.get('result', 'No results')}\n")
-                
+                    f.write(f"Execution Time: {result.get('time_seconds', 'N/A')} seconds\n")
+                    f.write("Results:\n")
+                    if query_name == 'Performance Query':
+                        # Print as plain text
+                        perf_result = result['result']
+                        if isinstance(perf_result, list):
+                            for row in perf_result:
+                                line = ' | '.join(str(v) for v in row.values())
+                                f.write(line + "\n")
+                                print(line)
+                        else:
+                            f.write(str(perf_result) + "\n")
+                            print(perf_result)
+                    elif isinstance(result['result'], list) and result['result']:
+                        table = tabulate(result['result'], headers="keys", tablefmt="grid")
+                        f.write(table + "\n")
+                        print(table)
+                    elif isinstance(result['result'], dict):
+                        for k, v in result['result'].items():
+                            f.write(f"  {k}: {v}\n")
+                            print(f"  {k}: {v}")
+                    else:
+                        f.write(str(result['result']) + "\n")
+                        print(result['result'])
                 f.write("\n")
-        
-        self.logger.info(f"Query results saved to: {output_file}") 
+                print()
+        self.logger.info(f"Query results saved to: {output_file}")
+
+if __name__ == "__main__":
+    # Setup logging
+    from config.logging_config import setup_logging
+    setup_logging()
+    
+    # Run queries
+    runner = QueryRunner()
+    success = runner.run_all_queries()
+    
+    if success:
+        print("Query execution completed successfully!")
+    else:
+        print("Query execution failed!")
+        sys.exit(1) 

@@ -1,5 +1,5 @@
 -- Healthcare Data Engineering Project - Required Queries
--- Five cross-dataset queries meeting project requirements
+-- Four cross-dataset queries meeting project requirements
 
 -- Query 1: Average age and age range of patients (REQUIRED)
 -- Uses: patients table
@@ -86,52 +86,6 @@ GROUP BY o.observation_code, o.observation_description, p.gender, age_group
 HAVING COUNT(*) >= 5  -- Only show observations with at least 5 measurements
 ORDER BY o.observation_code, abnormal_percentage DESC;
 
--- Query 5: Patient care continuity and medication adherence patterns
--- Uses: patients, encounters, medications, procedures tables
-SELECT 
-    p.patient_id,
-    p.first_name,
-    p.last_name,
-    EXTRACT(YEAR FROM AGE(p.date_of_birth)) AS age,
-    encounter_span_days,
-    total_encounters,
-    active_medications,
-    completed_procedures,
-    CASE 
-        WHEN encounter_span_days > 365 AND total_encounters >= 3 THEN 'High Continuity'
-        WHEN encounter_span_days > 180 AND total_encounters >= 2 THEN 'Medium Continuity'
-        ELSE 'Low Continuity'
-    END AS care_continuity_level,
-    CASE 
-        WHEN active_medications > 0 THEN 'Active Treatment'
-        ELSE 'No Active Treatment'
-    END AS treatment_status
-FROM patients p
-JOIN (
-    SELECT 
-        patient_id,
-        COUNT(*) AS total_encounters,
-        EXTRACT(DAY FROM (MAX(encounter_date) - MIN(encounter_date))) AS encounter_span_days
-    FROM encounters
-    GROUP BY patient_id
-) e_stats ON p.patient_id = e_stats.patient_id
-LEFT JOIN (
-    SELECT 
-        patient_id,
-        COUNT(*) AS active_medications
-    FROM medications
-    WHERE is_active = TRUE
-    GROUP BY patient_id
-) m_stats ON p.patient_id = m_stats.patient_id
-LEFT JOIN (
-    SELECT 
-        patient_id,
-        COUNT(*) AS completed_procedures
-    FROM procedures
-    GROUP BY patient_id
-) proc_stats ON p.patient_id = proc_stats.patient_id
-ORDER BY care_continuity_level DESC, total_encounters DESC;
-
 -- Bonus Query: Data Quality Assessment
 -- Cross-dataset validation and completeness check
 SELECT 
@@ -165,8 +119,8 @@ SELECT
     COUNT(CASE WHEN frequency IS NULL THEN 1 END) AS missing_frequency
 FROM medications;
 
--- Performance Query: Query execution time analysis
--- Use this to measure query performance during testing
+-- Performance Query:
+-- Query execution time analysis for diagnosis and medication counts by patient
 EXPLAIN (ANALYZE, BUFFERS) 
 SELECT 
     p.last_name,

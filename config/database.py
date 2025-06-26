@@ -127,9 +127,9 @@ class DatabaseManager:
                         cur.execute(query)
                     
                     if cur.description:  # Query returns results
-                        columns = [desc[0] for desc in cur.description]
                         rows = cur.fetchall()
-                        return [dict(zip(columns, row)) for row in rows]
+                        # RealDictCursor already returns dict-like objects, so convert to regular dicts
+                        return [dict(row) for row in rows]
                     else:  # Query doesn't return results (INSERT, UPDATE, DELETE)
                         conn.commit()
                         return []

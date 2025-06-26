@@ -1,0 +1,35 @@
+{
+  "timestamp": "2025-06-26T11:59:33.274684",
+  "summary": {
+    "total_records_loaded": 1762,
+    "total_errors": 0,
+    "success_rate": 100.0
+  },
+  "details": {
+    "patients": {
+      "loaded": 150,
+      "errors": 0
+    },
+    "encounters": {
+      "loaded": 291,
+      "errors": 0
+    },
+    "diagnoses": {
+      "loaded": 221,
+      "errors": 0
+    },
+    "medications": {
+      "loaded": 160,
+      "errors": 0
+    },
+    "procedures": {
+      "loaded": 54,
+      "errors": 0
+    },
+    "observations": {
+      "loaded": 886,
+      "errors": 0
+    }
+  },
+  "database_stats": {}
+}
