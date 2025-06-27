@@ -17,27 +17,28 @@ This project implements a complete ETL (Extract, Transform, Load) pipeline for s
 - Output formatting for human-readable results
 - Security framework (role-based access, .env config)
 - Comprehensive documentation and reproducibility instructions
+- **Database comparison and rationale** (see `docs/database_comparison.md`)
+- **System test and performance reporting** (see below)
+- **Security and compliance documentation** (see `docs/security-policy.md`)
 
 ### In Progress / To Do
-- Security framework and compliance documentation (expand in docs)
 - System integration and deployment (productionization, CI/CD)
 - PostgreSQL schema optimization and advanced indexing
-- Performance benchmarking and reporting
 - Additional data quality analysis and test case development
-- Documentation of design decisions, database comparisons, and rationale
+- Documentation of design decisions and rationale
 
 ---
 
 ## Assignment Requirements & Coverage
 
 - **Analysis of datasets:** Data types, structure, missing values, and rationale for PostgreSQL (relational) choice are documented.
-- **Database comparison:** (To do) Add a section comparing PostgreSQL, SQLite, and MongoDB, and justify the choice.
+- **Database comparison:** See `docs/database_comparison.md` for a comparison of PostgreSQL, SQLite, and MongoDB, and justification for the choice.
 - **System design:** Architecture, security, and distribution described in this README and code comments.
-- **Data security policy:** .env-based secrets, role-based access, and audit logging implemented; further documentation needed.
+- **Data security policy:** .env-based secrets, role-based access, and audit logging implemented; see `docs/security-policy.md` for details.
 - **Realization:** All ETL steps are implemented as Python scripts, with Dockerized database and pgAdmin for management.
 - **Queries:** At least four cross-dataset queries, including required demographic and provider statistics, are implemented and output in readable tables.
 - **Performance analysis:** Query plan and timing are included in the output.
-- **Test report:** Output files and logs provide evidence of successful runs and performance.
+- **Test report:** Output files and logs provide evidence of successful runs and performance. See the system test section below.
 
 ---
 
@@ -50,7 +51,7 @@ healthcare_data_project/
 │   ├── raw/               # Original synthetic data files (CSV, JSON, SQLite)
 │   ├── processed/         # Cleaned data after ETL
 │   └── quality_reports/   # Data quality and load reports
-├── docs/                  # Documentation and design notes
+├── docs/                  # Documentation and design notes (see below)
 ├── logs/                  # Application logs
 ├── output/                # Query results and reports
 ├── scripts/
@@ -61,13 +62,39 @@ healthcare_data_project/
 │   ├── schema.sql         # Database schema (tables, constraints)
 │   ├── queries.sql        # Analytical and performance queries
 │   └── test_data.sql/     # Optional test data
-├── tests/                 # Unit and integration tests
+├── tests/                 # System and integration tests (see tests/README.md)
 ├── Dockerfile             # Python environment for Docker
 ├── docker-compose.yml     # Multi-container orchestration (Postgres, pgAdmin)
 ├── requirements.txt       # Python dependencies
 ├── .env.example           # Example environment configuration
 └── README.md              # Project documentation (this file)
 ```
+
+---
+
+## Documentation
+
+- **Architecture diagrams, data flow, and design:** See `docs/` for PNG diagrams and markdown explanations.
+- **Database comparison:** See `docs/database_comparison.md`.
+- **System distribution:** See `docs/distribution.md`.
+- **Security policy:** See `docs/security-policy.md`.
+
+---
+
+## System Test and Reporting
+
+A comprehensive system test is provided to validate the entire ETL pipeline, aggregate logs and outputs, and measure query performance.
+
+- **Script:** `tests/system_test.py`
+- **Report:** `tests/system_test_report.txt`
+
+**To run the system test:**
+```bash
+python tests/system_test.py
+```
+This will analyze the latest ETL run, check file integrity, summarize performance, and generate a detailed report.
+
+See `tests/README.md` for more details.
 
 ---
 
@@ -211,7 +238,6 @@ This will execute all cross-dataset queries and show that the database is fully 
 ## What Remains To Be Done
 
 - Expand documentation on security framework and compliance (GDPR, ISO, etc.).
-- Add a section comparing PostgreSQL, SQLite, and MongoDB, and justify the choice of PostgreSQL.
 - Add more advanced performance benchmarking and reporting.
 - Add more data quality analysis and test case development.
 - Document design decisions, system integration, and deployment steps.
@@ -227,9 +253,9 @@ This will execute all cross-dataset queries and show that the database is fully 
 - [x] Output formatting and reporting
 - [x] Security and .env configuration
 - [x] Dockerized, cross-platform setup
-- [ ] Database comparison and rationale
-- [ ] Advanced security and compliance documentation
-- [ ] Performance benchmarking and test report
+- [x] Database comparison and rationale
+- [x] Advanced security and compliance documentation
+- [x] Performance benchmarking and test report
 - [ ] Final integration and deployment documentation
 
 ---
