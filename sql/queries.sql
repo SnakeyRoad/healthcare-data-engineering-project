@@ -86,6 +86,38 @@ GROUP BY o.observation_code, o.observation_description, p.gender, age_group
 HAVING COUNT(*) >= 5  -- Only show observations with at least 5 measurements
 ORDER BY o.observation_code, abnormal_percentage DESC;
 
+-- Query 5: Procedure outcomes and patient health indicators by demographics
+-- Uses: patients, procedures, encounters, observations tables
+SELECT 
+    pr.procedure_code,
+    pr.procedure_description,
+    p.gender,
+    CASE 
+        WHEN EXTRACT(YEAR FROM AGE(p.date_of_birth)) < 40 THEN 'Under 40'
+        WHEN EXTRACT(YEAR FROM AGE(p.date_of_birth)) BETWEEN 40 AND 65 THEN '40-65'
+        ELSE 'Over 65'
+    END AS age_group,
+    COUNT(DISTINCT pr.procedure_id) AS total_procedures,
+    COUNT(DISTINCT p.patient_id) AS unique_patients,
+    ROUND(AVG(EXTRACT(YEAR FROM AGE(p.date_of_birth))), 1) AS avg_patient_age,
+    COUNT(CASE WHEN o.is_abnormal = TRUE THEN 1 END) AS patients_with_abnormal_results,
+    ROUND(
+        (COUNT(CASE WHEN o.is_abnormal = TRUE THEN 1 END)::DECIMAL / COUNT(DISTINCT p.patient_id)) * 100, 
+        2
+    ) AS abnormal_results_percentage,
+    ROUND(AVG(o.value_numeric), 2) AS avg_lab_value
+FROM patients p
+JOIN procedures pr ON p.patient_id = pr.patient_id
+JOIN encounters e ON p.patient_id = e.patient_id
+LEFT JOIN observations o ON e.encounter_id = o.encounter_id 
+    AND o.observation_code IN ('2160-0', '2345-7', '4548-4')  -- Key lab tests
+    AND o.observation_datetime BETWEEN pr.date_performed - INTERVAL '30 days' 
+                                    AND pr.date_performed + INTERVAL '30 days'
+WHERE pr.date_performed IS NOT NULL
+GROUP BY pr.procedure_code, pr.procedure_description, p.gender, age_group
+HAVING COUNT(DISTINCT pr.procedure_id) >= 2  -- Only show procedures with at least 2 instances
+ORDER BY total_procedures DESC, abnormal_results_percentage DESC;
+
 -- Bonus Query: Data Quality Assessment
 -- Cross-dataset validation and completeness check
 SELECT 

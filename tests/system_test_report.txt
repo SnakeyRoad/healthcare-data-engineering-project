@@ -1,0 +1,66 @@
+================================================================================
+HEALTHCARE DATA ENGINEERING PROJECT - SYSTEM TEST REPORT
+================================================================================
+Generated: 2025-06-27 13:32:27
+
+ETL PERFORMANCE SUMMARY
+----------------------------------------
+Total log files analyzed: 3
+Latest log: healthcare_etl_20250627_131232.log
+Total records processed: 2,852
+Data quality score: 99.82%
+
+ETL Step Performance:
+  load_patients: 0.070s average
+  load_encounters: 0.080s average
+  load_diagnoses: 0.060s average
+  load_medications: 0.040s average
+  load_procedures: 0.020s average
+  load_observations: 0.180s average
+
+DATA QUALITY SUMMARY
+----------------------------------------
+Overall quality score: 99.82%
+Quality report: data_quality_report_20250627_131126.json
+
+Table Quality Scores:
+  patients: 100.00%
+  observations: 99.10%
+  procedures: 100.00%
+  diagnoses: 100.00%
+  medications: 100.00%
+
+QUERY PERFORMANCE SUMMARY
+----------------------------------------
+Queries executed: 6
+Output file: query_results_20250627_131232.txt
+
+Query Execution Times:
+  Performance Query: Performance Query: 0.016s (OK)
+  Query 1: Average age and age range of patients (REQUIRED): Query 1: Average age and age range of patients (REQUIRED): 0.015s (OK)
+  Query 2: Average patients per physician (REQUIRED): Query 2: Average patients per physician (REQUIRED): 0.016s (OK)
+  Query 3: Most common diagnoses by age group with medication correlation: Query 3: Most common diagnoses by age group with medication correlation: 0.018s (OK)
+  Query 4: Lab value trends and abnormal results by patient demographics: Query 4: Lab value trends and abnormal results by patient demographics: 0.018s (OK)
+  Query 5: Procedure outcomes and patient health indicators by demographics: Query 5: Procedure outcomes and patient health indicators by demographics: 0.020s (OK)
+
+SYSTEM HEALTH SUMMARY
+----------------------------------------
+Total records: 1,090
+  - Patients: 150
+  - Observations: 886
+  - Procedures: 54
+
+File Integrity:
+  OK Processed patients data: 1 files
+  OK Processed observations data: 1 files
+  OK Processed procedures data: 1 files
+  OK Processed diagnoses data: 1 files
+  OK Processed medications data: 1 files
+  OK Query results: 1 files
+  OK ETL logs: 3 files
+
+No issues detected - system is healthy!
+
+================================================================================
+END OF SYSTEM TEST REPORT
+================================================================================

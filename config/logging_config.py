@@ -74,47 +74,15 @@ def setup_logging(
             cache_logger_on_first_use=True,
         )
     
-    # Create specialized loggers
-    create_specialized_loggers()
-    
     # Log startup information
     logger = logging.getLogger(__name__)
     logger.info(f"Logging initialized - Level: {log_level}, File: {log_file}")
 
 def create_specialized_loggers():
     """Create specialized loggers for different components"""
-    
-    # Data quality logger
-    data_quality_logger = logging.getLogger('data_quality')
-    data_quality_handler = logging.FileHandler('logs/data_quality.log')
-    data_quality_handler.setFormatter(
-        logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-    )
-    data_quality_logger.addHandler(data_quality_handler)
-    
-    # Database operations logger
-    db_logger = logging.getLogger('database')
-    db_handler = logging.FileHandler('logs/database_operations.log')
-    db_handler.setFormatter(
-        logging.Formatter('%(asctime)s - %(levelname)s - [%(funcName)s] %(message)s')
-    )
-    db_logger.addHandler(db_handler)
-    
-    # Security audit logger
-    security_logger = logging.getLogger('security')
-    security_handler = logging.FileHandler('logs/security_audit.log')
-    security_handler.setFormatter(
-        logging.Formatter('%(asctime)s - SECURITY - %(levelname)s - %(message)s')
-    )
-    security_logger.addHandler(security_handler)
-    
-    # Performance monitoring logger
-    perf_logger = logging.getLogger('performance')
-    perf_handler = logging.FileHandler('logs/performance.log')
-    perf_handler.setFormatter(
-        logging.Formatter('%(asctime)s - PERF - %(message)s')
-    )
-    perf_logger.addHandler(perf_handler)
+    # Note: Specialized loggers are not currently used in the ETL pipeline
+    # This function is kept for future extensibility but doesn't create empty log files
+    pass
 
 class PerformanceLogger:
     """Context manager for performance logging"""
