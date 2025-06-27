@@ -269,6 +269,21 @@ This healthcare data engineering project has been successfully completed with al
 - [x] Final integration and deployment documentation
 - [x] Portfolio completion
 
+## Security Notice
+
+This project includes a `.env` file with database credentials for 
+**educational purposes only**. This is intentional to ensure easy 
+reproduction and evaluation.
+
+**Why this is safe:**
+- Credentials only work with local Docker containers
+- No external services or APIs are accessible
+- Database contains only synthetic healthcare data
+- Ports are bound to localhost only
+
+**Never do this in production!**
+See our security-policy.md for production security guidelines.
+
 ---
 
 ## Contact
