@@ -8,27 +8,27 @@ The healthcare data engineering system is designed to be modular, scalable, and 
 
 ## 1. Current Distribution (Student Project)
 
-- **Single Machine Deployment:**  
+- **Single Machine Deployment:** 
   All components (ETL scripts, PostgreSQL database, and optional pgAdmin) run on a single machine, orchestrated via Docker Compose.
-- **Isolation:**  
+- **Isolation:** 
   Each service runs in its own container, ensuring separation of concerns and easy troubleshooting.
-- **Reproducibility:**  
+- **Reproducibility:** 
   The environment can be recreated on any machine with Docker and Python, ensuring consistent results.
 
 ---
 
 ## 2. Scalability & Distributed Properties
 
-- **Horizontal Scaling:**  
+- **Horizontal Scaling:** 
   - The PostgreSQL service can be scaled using Docker Swarm or Kubernetes for high availability.
   - ETL scripts can be run on multiple machines or scheduled via a workflow manager (e.g., Airflow) for large datasets.
-- **Replication:**  
+- **Replication:** 
   - PostgreSQL supports master-slave replication for data redundancy and failover.
-- **Sharding:**  
+- **Sharding:** 
   - For very large datasets, the database can be sharded (partitioned) across multiple nodes, distributing the load.
-- **Backup & Recovery:**  
+- **Backup & Recovery:** 
   - Automated backups can be scheduled using cron jobs or cloud backup solutions.
-- **Monitoring:**  
+- **Monitoring:** 
   - Logs and metrics can be collected using tools like Prometheus, Grafana, or ELK stack.
 
 ---
