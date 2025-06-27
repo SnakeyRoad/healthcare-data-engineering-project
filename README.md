@@ -56,8 +56,7 @@ healthcare_data_project/
 ├── scripts/
 │   ├── data_cleaning.py   # Data cleaning and validation pipeline
 │   ├── data_loader.py     # Loads cleaned data into PostgreSQL
-│   ├── query_runner.py    # Runs analytical and performance queries
-│   └── main.py            # Optional main entry point
+│   └── query_runner.py    # Runs analytical and performance queries
 ├── sql/
 │   ├── schema.sql         # Database schema (tables, constraints)
 │   ├── queries.sql        # Analytical and performance queries
@@ -128,21 +127,69 @@ docker compose up -d
 ```
 
 ### 5. Run the ETL Pipeline
+The ETL pipeline consists of three independent scripts that should be run in sequence:
+
 ```bash
 source venv/bin/activate  # Always activate venv first
+
+# Step 1: Data Cleaning
 python3 scripts/data_cleaning.py
+
+# Step 2: Data Loading
 python3 scripts/data_loader.py
+
+# Step 3: Query Execution
 python3 scripts/query_runner.py
 ```
+
+**Note:** Each script can be run independently. The pipeline is designed to be modular, allowing you to run individual steps as needed.
 
 ### 6. View Results
 - Query results are saved in the `output/` directory.
 - Logs are in `logs/`.
 - Data quality reports are in `data/quality_reports/`.
 
-### 7. Access pgAdmin
+### 7. Access pgAdmin (Optional)
 - Open [http://localhost:5050](http://localhost:5050)
 - Login with credentials from your `.env` file. (pgAdmin might ask for masterpwd, set this to own preference)
+
+**Note:** pgAdmin is optional for the assignment. The ETL pipeline works perfectly without it, and all database operations can be verified through the query runner output.
+
+### 8. Verify Database Connectivity (Alternative to pgAdmin)
+If you have trouble with pgAdmin, you can verify database connectivity using command-line tools:
+
+#### Option A: Using psql (if installed)
+```bash
+# Test connection and view tables
+PGPASSWORD=secure_password_2024 psql -h localhost -p 5432 -U healthcare_admin -d healthcare_db -c "\dt"
+
+# Test a simple query
+PGPASSWORD=secure_password_2024 psql -h localhost -p 5432 -U healthcare_admin -d healthcare_db -c "SELECT COUNT(*) FROM patients;"
+
+# View table statistics
+PGPASSWORD=secure_password_2024 psql -h localhost -p 5432 -U healthcare_admin -d healthcare_db -c "SELECT table_name, (SELECT count(*) FROM information_schema.columns WHERE table_name = t.table_name) as column_count FROM information_schema.tables t WHERE table_schema = 'public' ORDER BY table_name;"
+```
+
+#### Option B: Using Docker exec (if psql not installed)
+```bash
+# Test connection from within the PostgreSQL container
+docker exec healthcare_postgres psql -U healthcare_admin -d healthcare_db -c "SELECT version();"
+
+# View all tables
+docker exec healthcare_postgres psql -U healthcare_admin -d healthcare_db -c "\dt"
+
+# Check data counts
+docker exec healthcare_postgres psql -U healthcare_admin -d healthcare_db -c "SELECT 'patients' as table_name, count(*) as row_count FROM patients UNION ALL SELECT 'diagnoses', count(*) FROM diagnoses UNION ALL SELECT 'medications', count(*) FROM medications UNION ALL SELECT 'observations', count(*) FROM observations UNION ALL SELECT 'procedures', count(*) FROM procedures ORDER BY table_name;"
+```
+
+#### Option C: Using the Query Runner Script
+The most reliable way to verify everything is working:
+```bash
+# Run the query runner to execute all analytical queries
+python3 scripts/query_runner.py
+```
+
+This will execute all cross-dataset queries and show that the database is fully functional with all data loaded correctly.
 
 ---
 
