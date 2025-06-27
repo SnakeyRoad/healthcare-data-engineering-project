@@ -71,7 +71,7 @@ healthcare_data_project/
 ├── Dockerfile             # Python environment for Docker
 ├── docker-compose.yml     # Multi-container orchestration (Postgres, pgAdmin)
 ├── requirements.txt       # Python dependencies
-├── .env.example           # Example environment configuration
+├── .env                   # .env file with local login credentials (SAFE for dev, NOT suitable for production)
 └── README.md              # Project documentation (this file)
 ```
 
